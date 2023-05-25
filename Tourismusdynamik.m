@@ -34,7 +34,7 @@ touristen_ =@(t, touristen, umweltQualitaet) (touristenZuwachs(t, touristen, umw
 % Umwelt
 umweltAusgaben =@(t, touristen) umsatz(t, touristen) * pUmsatzanteilFuerUmwelt / 100;         % [1]
 umweltVerbrauch =@(t, umweltQualitaet) umsatz(t) * umweltQualitaet * pVerbrauchsRate;    % [1/jahr]
-umweltVerbesserung =@(t) umweltAusgaben(t) * pVerbesserungsRate;        % [1/jahr]
+umweltVerbesserung =@(t, touristen) umweltAusgaben(t, touristen) * pVerbesserungsRate;        % [1/jahr]
 umweltErneuerung =@(t, umweltQualitaet) (umweltQualitaet / pRegenerationsZeit) * (1 - umweltQualitaet / pKapazitaet); % [1/jahr]
 % der inhalt der klammer muss noch integriert werden !!!!!
 umweltQualitaet_ =@(t, touristen, umweltQualitaet) (umweltErneuerung(t, umweltQualitaet) + umweltVerbesserung(t) - umweltVerbrauch(t, umweltQualitaet)); % [1]
