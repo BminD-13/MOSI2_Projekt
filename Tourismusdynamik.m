@@ -1,6 +1,6 @@
 clc
 clear
-close all
+close all 
 
 %% p Parameter
 pWerbeEinfluss = 5;          % [1/jahr]
