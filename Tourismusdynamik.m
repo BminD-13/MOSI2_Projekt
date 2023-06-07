@@ -24,10 +24,29 @@ open("TourismusdynamikSim")
 modelData = sim("TourismusdynamikSim");
 
 %% Plot Ergebnisse Simulink Modell 
+figure('Name','Zeitreihendiagramm');
 hold on
     plot(modelData.tout, modelData.touristen.Data)
     plot(modelData.tout, modelData.umweltQualitaet.Data)
     title("Tourismusdynamik")
     xlabel("Jahre")
     legend("Touristen","Umweltqualitaet")
+hold off
+
+%% Plot Ergebnisse Zustandstraumdiagramm
+figure('Name','Zustandsraumdiagramm');              
+hold on
+plot(modelData.touristen.Data, modelData.umweltQualitaet.Data )
+title("Tourismusdynamik Zustandsraumdiagramm")
+xlabel("Touristen")
+ylabel("Umweltqualitaet")
+
+%Richtungsfeld funktioniert noch nicht
+%[modelData.touristen.Data,modelData.umweltQualitaet.Data]= meshgrid ( 0 :.1 : 3, 0 : .1 : 1) ; % Gitter
+%dI = ;
+%dS = ;
+%norm = sqrt (dI.*dI+dS.*dS);
+%h = quiver (I,S,dI./ norm , dS./ norm , 0.5);
+%set (h ,%Color’, [0.36,0.38,0.4]);
+%axis ([0 , 3 ,0 ,1])
 hold off
