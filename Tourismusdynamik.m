@@ -26,8 +26,8 @@ modelData = sim("TourismusdynamikSim");
 %% Plot Ergebnisse Simulink Modell 
 figure('Name','Zeitreihendiagramm');
 hold on
-    plot(modelData.tout, modelData.touristen.Data)
-    plot(modelData.tout, modelData.umweltQualitaet.Data)
+    plot(modelData.tout, modelData.touristen.Data, 'LineWidth', 1)
+    plot(modelData.tout, modelData.umweltQualitaet.Data, 'LineWidth', 1)
     title("Tourismusdynamik")
     xlabel("Jahre")
     legend("Touristen","Umweltqualitaet")
@@ -36,7 +36,7 @@ hold off
 %% Plot Ergebnisse Zustandstraumdiagramm
 figure('Name','Zustandsraumdiagramm');              
 hold on
-plot(modelData.touristen.Data, modelData.umweltQualitaet.Data )
+plot(modelData.touristen.Data, modelData.umweltQualitaet.Data, 'LineWidth', 1 )
 title("Tourismusdynamik Zustandsraumdiagramm")
 xlabel("Touristen")
 ylabel("Umweltqualitaet")
@@ -47,6 +47,7 @@ ylabel("Umweltqualitaet")
 %dS = ;
 %norm = sqrt (dI.*dI+dS.*dS);
 %h = quiver (I,S,dI./ norm , dS./ norm , 0.5);
-%set (h ,%Color’, [0.36,0.38,0.4]);
+%set (h ,Color’, [0.36,0.38,0.4]);
 %axis ([0 , 3 ,0 ,1])
 hold off
+
