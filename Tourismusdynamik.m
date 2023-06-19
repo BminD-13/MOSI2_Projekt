@@ -13,9 +13,9 @@ figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
 
 %% Modelle
 simuLinkModels = [
-    "TourismusdynamikSimConstant.slx"
-    "TourismusdynamikSimLinFalling.slx"
-    "TourismusdynamikSimLinRising.slx"
+    "WerbeEinflussKonstant.slx"
+    "WerbeEinflussLinFallend.slx"
+    "WerbeEinflussLinSteigend.slx"
 ];
 ctMdl = length(simuLinkModels);
 
@@ -43,7 +43,9 @@ end
 
 % Plot der Touristen
 subplot(3, ctMdl, i)
-title("Touristen Zeitreihendiagramm")
+[t, s] = title(simuLinkModels(i),"Touristen Zeitreihendiagramm");
+t.FontSize = 12;
+s.FontSize = 10;
 xlabel("Jahre")
 hold on  
     for j = 1 : length(iParaSets)
@@ -53,7 +55,8 @@ hold off
 
 % Plot der Umweltqualitaet
 subplot(3, ctMdl, i+ctMdl)
-title("Umwelqualität Zeitreihendiagramm")
+t = title("Umwelqualität Zeitreihendiagramm");
+t.FontSize = 10;
 xlabel("Jahre")
 hold on
     for j = 1 : length(iParaSets)
@@ -65,7 +68,8 @@ hold off
 
 %% Plot Ergebnisse Zustandstraumdiagramm
 subplot(3, ctMdl, i+ctMdl*2)
-title("Tourismusdynamik Zustandsraumdiagramm")
+t = title("Tourismusdynamik Zustandsraumdiagramm");
+t.FontSize = 10;
 xlabel("Touristen")
 ylabel("Umweltqualitaet")
 hold on
