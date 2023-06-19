@@ -9,18 +9,20 @@ timeStep = 0.05;            % [jahr]
 
 timeVektor = timeInitial : timeStep : timeFinal;
 
+figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
+
 %% Modelle
 simuLinkModels = [
-    "TourismusdynamikConstant.sim"
-    "TourismusdynamikLinFalling.sim"
-    "TourismusdynamikLinRising.sim"
+    "TourismusdynamikSimConstant.slx"
+    "TourismusdynamikSimLinFalling.slx"
+    "TourismusdynamikSimLinRising.slx"
 ];
-
+ctMdl = length(simuLinkModels);
 
 %% p Parameter
 % verschiedene Parametersaetze
 ParameterSets
-%for i = 1 : length(simuLinkModels)
+for i = 1 : ctMdl
 for j = 1 : length(iParaSets)
 
     % Standartwerte
@@ -33,15 +35,14 @@ for j = 1 : length(iParaSets)
     pKapazitaet = iParaSets(j).pKapazitaet;                     % [1]
     
     %% Simulink Modell
-    open("TourismusdynamikSim")
-    modelData(j) = sim("TourismusdynamikSim");
+    open(simuLinkModels(i))
+    modelData(j) = sim(simuLinkModels(i));
 end
 
 %% Plot Ergebnisse Simulink Modell 
-figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
 
 % Plot der Touristen
-subplot(3,1,1)
+subplot(3, ctMdl, i)
 title("Touristen Zeitreihendiagramm")
 xlabel("Jahre")
 hold on  
@@ -51,7 +52,7 @@ hold on
 hold off
 
 % Plot der Umweltqualitaet
-subplot(3,1,2)
+subplot(3, ctMdl, i+ctMdl)
 title("Umwelqualität Zeitreihendiagramm")
 xlabel("Jahre")
 hold on
@@ -63,7 +64,7 @@ hold on
 hold off
 
 %% Plot Ergebnisse Zustandstraumdiagramm
-subplot(3,1,3)
+subplot(3, ctMdl, i+ctMdl*2)
 title("Tourismusdynamik Zustandsraumdiagramm")
 xlabel("Touristen")
 ylabel("Umweltqualitaet")
@@ -82,4 +83,4 @@ end
 %axis ([0 , 3 ,0 ,1])
 hold off
 
-%end % verschiedene Siulinkmodelle
+end % verschiedene Siulinkmodelle
