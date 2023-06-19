@@ -28,7 +28,7 @@ figure('Name','Zeitreihendiagramm');
 hold on
     plot(modelData.tout, modelData.touristen.Data, 'LineWidth', 1)
     plot(modelData.tout, modelData.umweltQualitaet.Data, 'LineWidth', 1)
-    title("Tourismusdynamik")
+    title("Tourismusdynamik Zeitreihendiagramm")
     xlabel("Jahre")
     legend("Touristen","Umweltqualitaet")
 hold off
