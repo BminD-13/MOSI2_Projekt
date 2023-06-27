@@ -14,14 +14,15 @@ figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
 %% Modelle
 simuLinkModels = [
     "WerbeEinflussKonstant.slx"
-    "WerbeEinflussLinFallend.slx"
     "WerbeEinflussLinSteigend.slx"
+    "WerbeEinflussSaisonal.slx"
 ];
 ctMdl = length(simuLinkModels);
 
 %% p Parameter
 % verschiedene Parametersaetze
 ParameterSets
+
 for i = 1 : ctMdl
 for j = 1 : length(iParaSets)
 
