@@ -9,6 +9,10 @@ timeStep = 0.05;            % [jahr]
 
 timeVektor = timeInitial : timeStep : timeFinal;
 
+%% Startwerte
+touristen_0 = 0.1;
+umweltQualitaet_0 = 1;
+
 figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
 
 %% Modelle
@@ -106,7 +110,7 @@ UmsatzanteilFuerUmwelt = [0.0, 0.1, 0.25, 0.5, 1.0];
 for j = 1 : length(UmsatzanteilFuerUmwelt)
 
     % Standartwerte
-    P03.pWerbeEinfluss = 5;          % [1/jahr]
+    pWerbeEinfluss = 5;          % [1/jahr]
     pVerlustRate = 0.5;          % [1/jahr]
     pUmsatzanteilFuerUmwelt = UmsatzanteilFuerUmwelt(j); % [1]
     pVerbrauchsRate = 0.1;       % [1/jahr]
@@ -122,7 +126,7 @@ end
 %% Plot Ergebnisse Simulink Modell 
 
 % Plot der Touristen
-subplot(3, 1, 1)
+subplot(3, 2, 1)
 t = title("Touristen Zeitreihendiagramm");
 t.FontSize = 10;
 xlabel("Jahre")
@@ -135,7 +139,7 @@ legend(legendInfo);
 hold off
 
 % Plot der Umweltqualitaet
-subplot(3, 1, 2)
+subplot(3, 2, 3)
 t = title("Umwelqualität Zeitreihendiagramm");
 t.FontSize = 10;
 xlabel("Jahre")
@@ -147,14 +151,46 @@ hold on
 hold off
 
 %% Plot Ergebnisse Zustandstraumdiagramm
-subplot(3, 1, 3)
+subplot(3, 2, 5)
 t = title("Tourismusdynamik Zustandsraumdiagramm");
 t.FontSize = 10;
 xlabel("Touristen")
 ylabel("Umweltqualitaet")
 hold on
-for j = 1 : length(iParaSets)
+for j = 1 : length(UmsatzanteilFuerUmwelt)
     plot(modelData(j).touristen.Data, modelData(j).umweltQualitaet.Data, 'LineWidth', 1 )
+end
+hold off
+
+for j = 1 : 20
+ 
+    % Standartwerte
+    pWerbeEinfluss = 5;          % [1/jahr]
+    pVerlustRate = 0.5;          % [1/jahr]
+    pUmsatzanteilFuerUmwelt = 0; % [1]
+    pVerbrauchsRate = 0.1;       % [1/jahr]
+    pVerbesserungsRate = 1;      % [1/jahr]
+    pRegenerationsZeit = 10;     % [1/jahr]
+    pKapazitaet = 1;             % [1]
+
+    %% Startwerte
+    touristen_0 = rand*2.2;
+    umweltQualitaet_0 = rand*1.2;
+    
+    %% Simulink Modell
+    open("WerbeEinflussLinSteigend.slx")
+    modelData(j) = sim("WerbeEinflussLinSteigend.slx");
+end
+
+% Plot der Touristen
+subplot(3, 2, 2)
+t = title("Tourismusdynamik Zustandsraumdiagramm");
+t.FontSize = 10;
+xlabel("Touristen")
+ylabel("Umweltqualitaet")
+hold on
+for j = 1 : 20
+    plot(modelData(j).touristen.Data, modelData(j).umweltQualitaet.Data, 'LineWidth', 0.8, 'Color',"#80B3FF" )
 end
 hold off
 
