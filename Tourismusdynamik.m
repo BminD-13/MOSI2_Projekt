@@ -89,3 +89,72 @@ end
 hold off
 
 end % verschiedene Siulinkmodelle
+
+
+
+
+
+%% Tests mit dem Umsatzanteil für Umwelt
+
+figure('Name','Tourismusdynamik in Abhängigkeit Umsatsanteil für Uwelt');
+
+%% p Parameter
+% verschiedene Parametersaetze
+
+UmsatzanteilFuerUmwelt = [0.0, 0.1, 0.25, 0.5, 1.0];
+
+for j = 1 : length(UmsatzanteilFuerUmwelt)
+
+    % Standartwerte
+    P03.pWerbeEinfluss = 5;          % [1/jahr]
+    pVerlustRate = 0.5;          % [1/jahr]
+    pUmsatzanteilFuerUmwelt = UmsatzanteilFuerUmwelt(j); % [1]
+    pVerbrauchsRate = 0.1;       % [1/jahr]
+    pVerbesserungsRate = 1;      % [1/jahr]
+    pRegenerationsZeit = 10;     % [1/jahr]
+    pKapazitaet = 1;             % [1]
+
+    %% Simulink Modell
+    open("WerbeEinflussLinSteigend.slx")
+    modelData(j) = sim("WerbeEinflussLinSteigend.slx");
+end
+
+%% Plot Ergebnisse Simulink Modell 
+
+% Plot der Touristen
+subplot(3, 1, 1)
+t = title("Touristen Zeitreihendiagramm");
+t.FontSize = 10;
+xlabel("Jahre")
+hold on  
+    for j = 1 : length(UmsatzanteilFuerUmwelt)
+        plot(modelData(j).tout, modelData(j).touristen.Data, 'LineWidth', 1)
+        legendInfo(j)= "pUmsatzanteilFuerUmwelt = " + num2str(UmsatzanteilFuerUmwelt(j));
+    end
+legend(legendInfo);
+hold off
+
+% Plot der Umweltqualitaet
+subplot(3, 1, 2)
+t = title("Umwelqualität Zeitreihendiagramm");
+t.FontSize = 10;
+xlabel("Jahre")
+hold on
+    for j = 1 : length(UmsatzanteilFuerUmwelt)
+        plot(modelData(j).tout, modelData(j).umweltQualitaet.Data, 'LineWidth', 1)
+        legendInfo(j)= "pUmsatzanteilFuerUmwelt = " + num2str(UmsatzanteilFuerUmwelt(j));
+    end
+hold off
+
+%% Plot Ergebnisse Zustandstraumdiagramm
+subplot(3, 1, 3)
+t = title("Tourismusdynamik Zustandsraumdiagramm");
+t.FontSize = 10;
+xlabel("Touristen")
+ylabel("Umweltqualitaet")
+hold on
+for j = 1 : length(iParaSets)
+    plot(modelData(j).touristen.Data, modelData(j).umweltQualitaet.Data, 'LineWidth', 1 )
+end
+hold off
+
