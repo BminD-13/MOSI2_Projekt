@@ -1,3 +1,7 @@
+%% Das öffnen der 3 Modelle dauert etwas
+% die meisten Ergebnisse sind in Plots dargestellt 
+
+%%
 clc
 clear
 close all 
@@ -13,8 +17,6 @@ timeVektor = timeInitial : timeStep : timeFinal;
 touristen_0 = 0.1;
 umweltQualitaet_0 = 1;
 
-figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
-
 %% Modelle
 simuLinkModels = [
     "WerbeEinflussKonstant.slx"
@@ -22,6 +24,11 @@ simuLinkModels = [
     "WerbeEinflussSaisonal.slx"
 ];
 ctMdl = length(simuLinkModels);
+
+
+
+%% Tests mit pWerbeEinfluss und verschiedenen Modellen
+figure('Name','Tourismusdynamik in Abhängigkeit zur Werbung');
 
 %% p Parameter
 % verschiedene Parametersaetze
@@ -44,7 +51,7 @@ for j = 1 : length(iParaSets)
     modelData(j) = sim(simuLinkModels(i));
 end
 
-%% Plot Ergebnisse Simulink Modell 
+%% Plot Ergebnisse pWerbeEinfluss 
 
 % Plot der Touristen
 subplot(3, ctMdl, i)
@@ -71,7 +78,7 @@ hold on
     legend(legendInfo);
 hold off
 
-%% Plot Ergebnisse Zustandstraumdiagramm
+% Plot des Zustandstraumdiagramm
 subplot(3, ctMdl, i+ctMdl*2)
 t = title("Tourismusdynamik Zustandsraumdiagramm");
 t.FontSize = 10;
@@ -82,17 +89,9 @@ for j = 1 : length(iParaSets)
     plot(modelData(j).touristen.Data, modelData(j).umweltQualitaet.Data, 'LineWidth', 1 )
 end
 
-%Richtungsfeld funktioniert noch nicht
-%[modelData.touristen.Data,modelData.umweltQualitaet.Data]= meshgrid ( 0 :.1 : 3, 0 : .1 : 1) ; % Gitter
-%dI = ;
-%dS = ;
-%norm = sqrt (dI.*dI+dS.*dS);
-%h = quiver (I,S,dI./ norm , dS./ norm , 0.5);
-%set (h ,Color’, [0.36,0.38,0.4]);
-%axis ([0 , 3 ,0 ,1])
 hold off
 
-end % verschiedene Siulinkmodelle
+end
 
 
 
@@ -123,7 +122,7 @@ for j = 1 : length(UmsatzanteilFuerUmwelt)
     modelData(j) = sim("WerbeEinflussLinSteigend.slx");
 end
 
-%% Plot Ergebnisse Simulink Modell 
+%% Plot Ergebnisse Umsatzanteil für Umwelt
 
 % Plot der Touristen
 subplot(3, 2, 1)
@@ -150,7 +149,7 @@ hold on
     end
 hold off
 
-%% Plot Ergebnisse Zustandstraumdiagramm
+% Plot Zustandstraumdiagramm
 subplot(3, 2, 5)
 t = title("Tourismusdynamik Zustandsraumdiagramm");
 t.FontSize = 10;
@@ -162,8 +161,15 @@ for j = 1 : length(UmsatzanteilFuerUmwelt)
 end
 hold off
 
-for j = 1 : 20
- 
+
+
+
+
+
+%% Tests mit dem Umsatzanteil für Umwelt 
+% wird in vorheriger Figure geplottet
+
+%% p Parameter
     % Standartwerte
     pWerbeEinfluss = 5;          % [1/jahr]
     pVerlustRate = 0.5;          % [1/jahr]
@@ -173,6 +179,7 @@ for j = 1 : 20
     pRegenerationsZeit = 10;     % [1/jahr]
     pKapazitaet = 1;             % [1]
 
+for j = 1 : 20
     %% Startwerte
     touristen_0 = rand*2.2;
     umweltQualitaet_0 = rand*1.2;
@@ -181,6 +188,8 @@ for j = 1 : 20
     open("WerbeEinflussLinSteigend.slx")
     modelData(j) = sim("WerbeEinflussLinSteigend.slx");
 end
+
+%% Plot der Trajektoren (Ggw und Stabilität) 
 
 % Plot der Touristen
 subplot(3, 2, 2)
